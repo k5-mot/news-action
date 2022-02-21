@@ -138,4 +138,8 @@ def main():
 
 
 if __name__ == '__main__':
-  main()
+  #main()
+  htmldata = getdata("https://github.com/k5-mot")
+  soup = BeautifulSoup(htmldata, 'html.parser')
+  imgs = soup.find_all('img')
+  print(imgs[0]['src'])
