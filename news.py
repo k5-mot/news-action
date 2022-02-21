@@ -112,32 +112,31 @@ def main():
 
   webhook_url = sys.argv[1]
   main_content = {
-    "username":"NEWS Bot",
+    "username": "NEWS Bot",
+    "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
   }
   main_content["embeds"] = []
   for news in news_list:
       htmldata = getdata(news[2])
       soup = BeautifulSoup(htmldata, 'html.parser')
-      imgs = soup.find_all('img')
-      for img in imgs:
-        if img.has_attr('src'):
-          if img['src'] == "":
-            continue
-          imgsrc = img['src']
-          break
-      dictimg = {}
-      dictimg["url"] = imgsrc
+      mainimg = soup.find('meta', attrs={'property': 'og:image', 'content': True})
+      imgsrc = None
+      dictimg = None
+      if mainimg is not None:
+        imgsrc = mainimg['content']
+        dictimg = {}
+        dictimg["url"] = imgsrc
       cn = {}
       cn["title"] = news[1]
       cn["url"] = news[2]
-      cn["thumbnail"] = dictimg
-
+      if dictimg is not None:
+        cn["thumbnail"] = dictimg
       main_content["embeds"].append(cn)
   requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
-  
+  # print(main_content)
   # Print all latest news
   for news in news_list:
-    print(news[0], news[1], news[2])
+      print(news[0], news[1], news[2])
 
 
 if __name__ == '__main__':
