@@ -117,8 +117,14 @@ def main():
   main_content["embeds"] = []
   for news in news_list:
       htmldata = getdata(news[2])
-      sp = BeautifulSoup(htmldata, 'html.parser')
-      imgs = sp.find_all('img')
+      soup = BeautifulSoup(htmldata, 'html.parser')
+      imgs = soup.find_all('img')
+      for img in imgs:
+        if img.has_attr('src'):
+          if img['src'] == "":
+            continue
+          imgsrc = img['src']
+          break
       dictimg = {}
       dictimg["url"] = imgs[0]['src']
       cn = {}
@@ -138,8 +144,4 @@ def main():
 
 
 if __name__ == '__main__':
-  #main()
-  htmldata = getdata("https://github.com/k5-mot")
-  soup = BeautifulSoup(htmldata, 'html.parser')
-  imgs = soup.find_all('img')
-  print(imgs[0]['src'])
+  main()
