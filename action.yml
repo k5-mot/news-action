@@ -1,0 +1,20 @@
+name: 'news-action'
+description: 'News bot'
+
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      id: setup
+      run: |
+        sudo apt update
+        sudo apt autoremove -y
+        sudo apt install -y python3
+        sudo python3 -m pip install feedparser
+
+    - shell: bash
+      id: news
+      run: |
+        cd ${{ github.action_path }}
+        python3 news.py news.txt
+        cp -rf news.txt ${GITHUB_WORKSPACE}
