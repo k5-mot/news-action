@@ -1,6 +1,11 @@
 name: 'news-action'
 description: 'News bot'
 
+inputs:
+  DISCORD_WEBHOOK:
+    description: 'WEBHOOK URL'
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -16,4 +21,4 @@ runs:
       id: news
       run: |
         cd ${{ github.action_path }}
-        python3 news.py ${{ secrets.DISCORD_WEBHOOK }} 
+        python3 news.py ${{ inputs.DISCORD_WEBHOOK }}
