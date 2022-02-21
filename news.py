@@ -2,7 +2,13 @@ import sys
 import datetime
 import requests
 import json
+from bs4 import BeautifulSoup
 import feedparser
+
+
+def getdata(url):
+  r = requests.get(url)
+  return r.text
 
 
 def main():
@@ -106,14 +112,20 @@ def main():
 
   webhook_url = sys.argv[1]
   main_content = {
-    "username":"Auto-DIS",
-    "title": "AAA"
+    "username":"NEWS Bot",
   }
   main_content["embeds"] = []
   for news in news_list:
+      htmldata = getdata(news[2])
+      sp = BeautifulSoup(htmldata, 'html.parser')
+      imgs = sp.find_all('img')
+      dictimg = {}
+      dictimg["url"] = imgs[0]['src']
       cn = {}
       cn["title"] = news[1]
       cn["url"] = news[2]
+      cn["thumbnail"] = dictimg
+
       main_content["embeds"].append(cn)
   requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
   # Print all latest news

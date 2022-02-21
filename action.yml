@@ -16,6 +16,8 @@ runs:
         sudo apt autoremove -y
         sudo apt install -y python3
         sudo python3 -m pip install feedparser
+        sudo python3 -m pip install requests
+        sudo python3 -m pip install bs4
 
     - shell: bash
       id: news
