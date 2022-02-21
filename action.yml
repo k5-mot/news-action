@@ -5,6 +5,10 @@ inputs:
   DISCORD_WEBHOOK:
     description: 'WEBHOOK URL'
     required: true
+  OPENWEATHER_APIKEY: 
+    description: 'API_KEY'
+    required: true
+
 
 runs:
   using: 'composite'
@@ -23,4 +27,4 @@ runs:
       id: news
       run: |
         cd ${{ github.action_path }}
-        python3 news.py ${{ inputs.DISCORD_WEBHOOK }}
+        python3 news.py ${{ inputs.DISCORD_WEBHOOK }} ${{ inputs.OPENWEATHER_APIKEY }}

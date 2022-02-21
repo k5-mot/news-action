@@ -25,3 +25,4 @@ jobs:
       - uses: k5-mot/news-action@main
         with:
           DISCORD_WEBHOOK: ${{ env.DISCORD_WEBHOOK }}
+          OPENWEATHER_APIKEY: ${{ env.OPENWEATHER_APIKEY }}

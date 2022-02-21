@@ -88,6 +88,7 @@ def main():
   ]
 
   # Collect latest news
+  print('Collecting latest news...')
   news_list = set()
   for RSS_URL in RSS_URLS:
     d = feedparser.parse(RSS_URL)
@@ -110,6 +111,7 @@ def main():
           if (jst_time + datetime.timedelta(days=-1)) < pdate:
             news_list.add(tuple([pdate, entry.title, entry.link]))
 
+  print('Make embeds of news list')
   webhook_url = sys.argv[1]
   main_content = {
     "username": "NEWS Bot",
@@ -132,6 +134,67 @@ def main():
       if dictimg is not None:
         cn["thumbnail"] = dictimg
       main_content["embeds"].append(cn)
+  
+  print('Make embeds of weather broadcasts')
+  city_name = "Nagasaki"
+  API_KEY = sys.argv[2]
+  api = "http://api.openweathermap.org/data/2.5/weather?units=metric&lang=ja&q={city}&appid={key}"
+  url = api.format(city=city_name, key=API_KEY)
+  response = requests.get(url)
+  data = response.json()
+  jsonText = json.dumps(data, indent=4)
+  print(jsonText)
+  # print(data)
+  cn = {
+    "title": data['name'] + "の天気",
+    "description": datetime.datetime.fromtimestamp(data['dt']).strftime('%Y/%m/%d (%a)'),
+    "url": "https://openweathermap.org/city/1856177",
+    "color": 5620992,
+    "image": { 
+      "url": "https://pbs.twimg.com/profile_banners/1159383628951851008/1565318066/1500x500",
+    },
+    "thumbnail": {
+      "url": "http://openweathermap.org/img/w/" + data['weather'][0]['icon'] + ".png"
+    },
+    "fields": [
+      {
+        "name": "天気",
+        "value": data['weather'][0]['description'],
+      },
+      {
+        "name": "最高気温",
+        "value": str(data['main']['temp_max']) + " ℃",
+        "inline": True
+      },
+      {
+        "name": "最低気温",
+        "value": str(data['main']['temp_min']) + " ℃",
+        "inline": True
+      },
+      {
+        "name": "湿度",
+        "value": str(data['main']['humidity']) + " %",
+        "inline": True
+      },
+      {
+        "name": "気圧",
+        "value": str(data['main']['pressure']) + " hPa",
+        "inline": True
+      },
+      {
+        "name": "日出",
+        "value": datetime.datetime.fromtimestamp(data['sys']['sunrise']).strftime('%H:%M:%S'),
+        "inline": True
+      },
+      {
+        "name": "日没",
+        "value": datetime.datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M:%S'),
+        "inline": True
+      },
+    ]
+  }
+  main_content["embeds"].append(cn)
+
   requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
   # print(main_content)
   # Print all latest news
