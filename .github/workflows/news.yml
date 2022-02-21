@@ -12,6 +12,7 @@ jobs:
   ubuntu-test:
     env:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      OPENWEATHER_APIKEY: ${{ secrets.OPENWEATHER_APIKEY }}
     runs-on: ubuntu-latest
 
     steps:
