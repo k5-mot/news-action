@@ -16,5 +16,4 @@ runs:
       id: news
       run: |
         cd ${{ github.action_path }}
-        python3 news.py news.txt
-        cp -rf news.txt ${GITHUB_WORKSPACE}
+        python3 news.py ${{ secrets.DISCORD_WEBHOOK }} 

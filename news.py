@@ -1,5 +1,7 @@
 import sys
 import datetime
+import requests
+import json
 import feedparser
 
 
@@ -66,7 +68,7 @@ def main():
     'https://aws.amazon.com/rss',
     'https://robotstart.info/feed',
     'https://www.technopro.com/feed',
-    'https://www.acri.c.titech.ac.jp/wordpress/feed',   
+    'https://www.acri.c.titech.ac.jp/wordpress/feed',
   ]
 
   # Search keywords
@@ -75,7 +77,7 @@ def main():
     'Field-Programmable Gate Array', 'HDL', 'HLS', 'Arm',
     'Field Programmable Gate Array', 'ASIC', '半導体',
     'Sony', 'Semiconductor', 'セミコンダクタ', 'terastic',
-    'Lattice', 'MicroSemi', 'Verilog', 'SystemVerilog', 
+    'Lattice', 'MicroSemi', 'Verilog', 'SystemVerilog',
     'Digilent', 'Avnet', 'Quartus', 'Vivado', 'Vitis', 'SystemC'
   ]
 
@@ -88,7 +90,7 @@ def main():
       for keyword in keywords:
         if keyword in entry.title:
           # Get date written
-          if entry.has_key('published'):  
+          if entry.has_key('published'):
             pdate = entry.published_parsed
           elif entry.has_key('updated'):
             pdate = entry.updated_parsed
@@ -102,13 +104,25 @@ def main():
           if (jst_time + datetime.timedelta(days=-1)) < pdate:
             news_list.add(tuple([pdate, entry.title, entry.link]))
 
+  webhook_url = sys.argv[1]
+  main_content = {
+    "username":"Auto-DIS",
+    "title": "AAA"
+  }
+  main_content["embeds"] = []
+  for news in news_list:
+      cn = {}
+      cn["title"] = news[1]
+      cn["url"] = news[2]
+      main_content["embeds"].append(cn)
+  requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
   # Print all latest news
   # for news in news_list:
   #   print(news[0], news[1], news[2])
 
-  with open(sys.argv[1], mode='w', encoding='utf-8') as f:
-    for news in news_list:
-      f.write('[' + news[1] + '](' + news[2] + ')\n')
+  #with open(sys.argv[1], mode='w', encoding='utf-8') as f:
+  #  for news in news_list:
+  #    f.write('[' + news[1] + '](' + news[2] + ')\n')
 
 
 if __name__ == '__main__':
