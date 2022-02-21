@@ -108,7 +108,7 @@ def main():
 
   with open(sys.argv[1], mode='w', encoding='utf-8') as f:
     for news in news_list:
-      f.write('[' + news[1] + '](' + news[2] + ')')
+      f.write('[' + news[1] + '](' + news[2] + ')\n')
 
 
 if __name__ == '__main__':

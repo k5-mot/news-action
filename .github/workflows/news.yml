@@ -27,6 +27,7 @@ jobs:
       - name: 'A'
         run: |
           echo "NEWSLINE=$(cat news.txt)" >> $GITHUB_ENV
+          cat news.txt
 
       - uses: sarisia/actions-status-discord@v1
         if: always() && ${{ env.DISCORD_WEBHOOK }} != null
@@ -39,7 +40,7 @@ jobs:
           nocontext: true
           noprefix: true
           description: |
-            `${{ env.NEWSLINE }}` 
+            ${{ env.NEWSLINE }}
 
 
 
