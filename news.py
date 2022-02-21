@@ -126,7 +126,7 @@ def main():
           imgsrc = img['src']
           break
       dictimg = {}
-      dictimg["url"] = imgs[0]['src']
+      dictimg["url"] = imgsrc
       cn = {}
       cn["title"] = news[1]
       cn["url"] = news[2]
@@ -134,13 +134,10 @@ def main():
 
       main_content["embeds"].append(cn)
   requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
+  
   # Print all latest news
-  # for news in news_list:
-  #   print(news[0], news[1], news[2])
-
-  #with open(sys.argv[1], mode='w', encoding='utf-8') as f:
-  #  for news in news_list:
-  #    f.write('[' + news[1] + '](' + news[2] + ')\n')
+  for news in news_list:
+    print(news[0], news[1], news[2])
 
 
 if __name__ == '__main__':
