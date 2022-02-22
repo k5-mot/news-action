@@ -166,6 +166,11 @@ def get_weather():
         "value": data['weather'][0]['description'],
       },
       {
+        "name": "現在気温",
+        "value": str(data['main']['temp']) + " ℃",
+        "inline": True
+      },
+      {
         "name": "最高気温",
         "value": str(data['main']['temp_max']) + " ℃",
         "inline": True
@@ -173,11 +178,6 @@ def get_weather():
       {
         "name": "最低気温",
         "value": str(data['main']['temp_min']) + " ℃",
-        "inline": True
-      },
-      {
-        "name": "体感温度",
-        "value": str(data['main']['feels_like']) + " ℃",
         "inline": True
       },
       {
