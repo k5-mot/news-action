@@ -22,6 +22,7 @@ runs:
         sudo python3 -m pip install feedparser
         sudo python3 -m pip install requests
         sudo python3 -m pip install bs4
+        sudo python3 -m pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
     - shell: bash
       id: news

@@ -1,17 +1,20 @@
+from __future__ import print_function
 import sys
+import os
 import datetime
 import requests
 import json
 from bs4 import BeautifulSoup
 import feedparser
+import pickle
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 
-def getdata(url):
-  r = requests.get(url)
-  return r.text
-
-
-def main():
+def get_news():
   # List of News source
   RSS_URLS = [
     'https://news.mynavi.jp/rss/index',
@@ -48,8 +51,8 @@ def main():
     'https://news.mynavi.jp/rss/digital/pc/jisaku',
     'https://news.mynavi.jp/rss/digital/pc/internet',
     'https://news.mynavi.jp/rss/digital/pc/pccampaign',
-    'https://news.yahoo.co.jp/rss/topics/it.xml',
-    'https://news.yahoo.co.jp/rss/categories/it.xml',
+    # 'https://news.yahoo.co.jp/rss/topics/it.xml',
+    # 'https://news.yahoo.co.jp/rss/categories/it.xml',
     'https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf',
     'https://rss.itmedia.co.jp/rss/2.0/monoist.xml',
     'https://rss.itmedia.co.jp/rss/2.0/techfactory.xml',
@@ -111,30 +114,31 @@ def main():
           if (jst_time + datetime.timedelta(days=-1)) < pdate:
             news_list.add(tuple([pdate, entry.title, entry.link]))
 
-  print('Make embeds of news list')
-  webhook_url = sys.argv[1]
-  main_content = {
-    "username": "NEWS Bot",
-    "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-  }
-  main_content["embeds"] = []
+  cns = []
   for news in news_list:
-      htmldata = getdata(news[2])
+      htmldata = requests.get(news[2]).text
       soup = BeautifulSoup(htmldata, 'html.parser')
       mainimg = soup.find('meta', attrs={'property': 'og:image', 'content': True})
       imgsrc = None
-      dictimg = None
       if mainimg is not None:
         imgsrc = mainimg['content']
-        dictimg = {}
-        dictimg["url"] = imgsrc
-      cn = {}
-      cn["title"] = news[1]
-      cn["url"] = news[2]
-      if dictimg is not None:
-        cn["thumbnail"] = dictimg
-      main_content["embeds"].append(cn)
-  
+      cn = {
+        "title": news[1],
+        "url": news[2],
+        "color": 1752220,
+        "thumbnail": {
+          "url": imgsrc
+        }
+      }
+      cns.append(cn)
+
+  # Print all latest news
+  for news in news_list:
+      print(news[0], news[1], news[2])
+  return cns
+
+
+def get_weather():
   print('Make embeds of weather broadcasts')
   city_name = "Nagasaki"
   API_KEY = sys.argv[2]
@@ -193,14 +197,94 @@ def main():
       },
     ]
   }
-  main_content["embeds"].append(cn)
+  return cn
+
+
+def get_calender():
+    """Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
+    # If modifying these scopes, delete the file token.json.
+    SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+
+    creds = None
+    # The file token.json stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists('token.json'):
+        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.json', 'w') as token:
+            token.write(creds.to_json())
+
+    try:
+        service = build('calendar', 'v3', credentials=creds)
+
+        # Call the Calendar API
+        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+        print('Getting the upcoming 10 events')
+        events_result = service.events().list(calendarId='primary', timeMin=now,
+                                              maxResults=10, singleEvents=True,
+                                              orderBy='startTime').execute()
+        events = events_result.get('items', [])
+
+        cn = {
+          "title": "今日の予定",
+          #"url": news[2],
+          "description": datetime.datetime.now().strftime('%Y/%m/%d (%a)'),
+          "color": 16776960,
+          "thumbnail": {
+            "url": "https://avatars.githubusercontent.com/u/34744243?v=4"
+          },
+          "fields": []
+        }
+
+        if not events:
+            print('No upcoming events found.')
+            return
+
+        # Prints the start and name of the next 10 events
+        for event in events:
+            start = event['start'].get('dateTime', event['start'].get('date'))
+            print(start, event['summary'])
+            goal = {
+              "name": start,
+              "value": event['summary']
+            }
+            cn['fields'].append(goal)
+
+        return cn
+
+    except HttpError as error:
+        print('An error occurred: %s' % error)
+
+
+
+
+
+def main():
+  print('Make embeds of news list')
+  webhook_url = sys.argv[1]
+  main_content = {
+    "username": "NEWS Bot",
+    "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+  }
+  main_content["embeds"] = []
+  main_content["embeds"] = get_news()
+  main_content["embeds"].append(get_weather())
+  # main_content["embeds"].append(get_calender())
 
   requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
   # print(main_content)
-  # Print all latest news
-  for news in news_list:
-      print(news[0], news[1], news[2])
-
+  
 
 if __name__ == '__main__':
   main()
