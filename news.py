@@ -264,7 +264,7 @@ def get_calender():
         return cn
 
     except HttpError as error:
-        print('An error occurred: %s' % error
+        print('An error occurred: %s' % error)
 
 
 def main():
