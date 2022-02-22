@@ -78,6 +78,19 @@ def get_news():
     'https://robotstart.info/feed',
     'https://www.technopro.com/feed',
     'https://www.acri.c.titech.ac.jp/wordpress/feed',
+    'https://gendai.ismedia.jp/list/feed/rss',
+    'https://about.bloomberg.co.jp/feed',
+    'https://diamond.jp/list/feed/rss/dol',
+    'https://biz-journal.jp/index.xml',
+    'https://toyokeizai.net/list/feed/rss',
+    'https://president.jp/list/rss',
+    'https://feeds.dailyfeed.jp/feed/s/22/348.rss',
+    'https://rss.itmedia.co.jp/rss/2.0/topstory.xml',
+    'https://www.fukeiki.com/atom.xml',
+    'https://www.gizmodo.jp/index.xml',
+    'https://rss.itmedia.co.jp/rss/2.0/topstory.xml',
+    'https://rss.itmedia.co.jp/rss/2.0/news_bursts.xml',
+    'https://rss.itmedia.co.jp/rss/2.0/mobile.xml'
   ]
 
   # Search keywords
