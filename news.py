@@ -206,6 +206,11 @@ def get_weather():
         "inline": True
       },
       {
+        "name": "突風",
+        "value": data['wind']['gust'] + ' [m/s]',
+        "inline": True
+      },
+      {
         "name": "経度",
         "value": data['coord']['lon'] + ' [°]',
         "inline": True
