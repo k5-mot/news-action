@@ -197,27 +197,27 @@ def get_weather():
       },
       {
         "name": "風速",
-        "value": data['wind']['speed'] + ' [m/s]',
+        "value": str(data['wind']['speed']) + ' [m/s]',
         "inline": True
       },
       {
         "name": "風向",
-        "value": data['wind']['deg'] + ' [°]',
+        "value": str(data['wind']['deg']) + ' [°]',
         "inline": True
       },
       {
         "name": "突風",
-        "value": data['wind']['gust'] + ' [m/s]',
+        "value": str(data['wind']['gust']) + ' [m/s]',
         "inline": True
       },
       {
         "name": "経度",
-        "value": data['coord']['lon'] + ' [°]',
+        "value": str(data['coord']['lon']) + ' [°]',
         "inline": True
       },
       {
         "name": "緯度",
-        "value": data['coord']['lat'] + ' [°]',
+        "value": str(data['coord']['lat']) + ' [°]',
         "inline": True
       },
     ]
