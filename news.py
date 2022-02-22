@@ -187,12 +187,12 @@ def get_weather():
       },
       {
         "name": "日出",
-        "value": datetime.datetime.fromtimestamp(data['sys']['sunrise']).strftime('%H:%M:%S'),
+        "value": datetime.datetime.fromtimestamp(data['sys']['sunrise'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M:%S'),
         "inline": True
       },
       {
         "name": "日没",
-        "value": datetime.datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M:%S'),
+        "value": datetime.datetime.fromtimestamp(data['sys']['sunset'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M:%S'),
         "inline": True
       },
     ]
@@ -264,10 +264,7 @@ def get_calender():
         return cn
 
     except HttpError as error:
-        print('An error occurred: %s' % error)
-
-
-
+        print('An error occurred: %s' % error
 
 
 def main():
