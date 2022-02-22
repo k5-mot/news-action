@@ -166,7 +166,7 @@ def get_weather():
         "value": data['weather'][0]['description'],
       },
       {
-        "name": "現在気温",
+        "name": "気温",
         "value": str(data['main']['temp']) + " ℃",
         "inline": True
       },
