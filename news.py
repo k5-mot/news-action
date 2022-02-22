@@ -220,6 +220,11 @@ def get_weather():
         "value": str(data['coord']['lat']) + ' [°]',
         "inline": True
       },
+      {
+        "name": "国",
+        "value": str(data['sys']['country']),
+        "inline": True
+      },
     ]
   }
   return cn
