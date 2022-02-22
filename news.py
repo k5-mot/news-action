@@ -167,37 +167,37 @@ def get_weather():
       },
       {
         "name": "気温",
-        "value": str(data['main']['temp']) + " ℃",
+        "value": str(data['main']['temp']) + " [℃]",
         "inline": True
       },
       {
         "name": "最高気温",
-        "value": str(data['main']['temp_max']) + " ℃",
+        "value": str(data['main']['temp_max']) + " [℃]",
         "inline": True
       },
       {
         "name": "最低気温",
-        "value": str(data['main']['temp_min']) + " ℃",
+        "value": str(data['main']['temp_min']) + " [℃]",
         "inline": True
       },
       {
         "name": "湿度",
-        "value": str(data['main']['humidity']) + " %",
+        "value": str(data['main']['humidity']) + " [%]",
         "inline": True
       },
       {
         "name": "日出",
-        "value": datetime.datetime.fromtimestamp(data['sys']['sunrise'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M:%S'),
+        "value": datetime.datetime.fromtimestamp(data['sys']['sunrise'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M'),
         "inline": True
       },
       {
         "name": "日没",
-        "value": datetime.datetime.fromtimestamp(data['sys']['sunset'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M:%S'),
+        "value": datetime.datetime.fromtimestamp(data['sys']['sunset'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M'),
         "inline": True
       },
       {
         "name": "気圧",
-        "value": str(data['main']['pressure']) + " hPa",
+        "value": str(data['main']['pressure']) + " [hPa]",
         "inline": True
       },
       {
