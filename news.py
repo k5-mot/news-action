@@ -195,6 +195,26 @@ def get_weather():
         "value": datetime.datetime.fromtimestamp(data['sys']['sunset'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M:%S'),
         "inline": True
       },
+      {
+        "name": "風速",
+        "value": data['wind']['speed'] + ' [m/s]',
+        "inline": True
+      },
+      {
+        "name": "風向",
+        "value": data['wind']['deg'] + ' [°]',
+        "inline": True
+      },
+      {
+        "name": "経度",
+        "value": data['coord']['lon'] + ' [°]',
+        "inline": True
+      },
+      {
+        "name": "緯度",
+        "value": data['coord']['lat'] + ' [°]',
+        "inline": True
+      },
     ]
   }
   return cn
