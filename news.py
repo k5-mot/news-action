@@ -176,13 +176,13 @@ def get_weather():
         "inline": True
       },
       {
-        "name": "湿度",
-        "value": str(data['main']['humidity']) + " %",
+        "name": "体感温度",
+        "value": str(data['main']['feels_like']) + " ℃",
         "inline": True
       },
       {
-        "name": "気圧",
-        "value": str(data['main']['pressure']) + " hPa",
+        "name": "湿度",
+        "value": str(data['main']['humidity']) + " %",
         "inline": True
       },
       {
@@ -193,6 +193,11 @@ def get_weather():
       {
         "name": "日没",
         "value": datetime.datetime.fromtimestamp(data['sys']['sunset'], tz=datetime.timezone(datetime.timedelta(hours=9))).strftime('%H:%M:%S'),
+        "inline": True
+      },
+      {
+        "name": "気圧",
+        "value": str(data['main']['pressure']) + " hPa",
         "inline": True
       },
       {
