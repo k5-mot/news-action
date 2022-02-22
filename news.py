@@ -208,7 +208,7 @@ def get_weather():
       {
         "name": "経度",
         "value": str(data['coord']['lon']) + ' [°]',
-        "inline": False
+        "inline": True
       },
       {
         "name": "緯度",
