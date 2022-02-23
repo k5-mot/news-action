@@ -7,11 +7,12 @@ import json
 from bs4 import BeautifulSoup
 import feedparser
 import pickle
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+import difflib
+# from google.auth.transport.requests import Request
+# from google.oauth2.credentials import Credentials
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from googleapiclient.discovery import build
+# from googleapiclient.errors import HttpError
 
 
 def get_news():
@@ -29,7 +30,7 @@ def get_news():
         'https://news.mynavi.jp/rss/techplus/enterprise/engineer',
         'https://news.mynavi.jp/rss/techplus/enterprise/soho',
         'https://news.mynavi.jp/rss/techplus/enterprise/corp',
-        'https://news.mynavi.jp/rss/techplus/enterprise/bizskillup'
+        'https://news.mynavi.jp/rss/techplus/enterprise/bizskillup',
         'https://news.mynavi.jp/rss/techplus/technology/semiconductor',
         'https://news.mynavi.jp/rss/techplus/technology/carelectronics',
         'https://news.mynavi.jp/rss/techplus/technology/embedded',
@@ -52,9 +53,6 @@ def get_news():
         'https://news.mynavi.jp/rss/digital/pc/jisaku',
         'https://news.mynavi.jp/rss/digital/pc/internet',
         'https://news.mynavi.jp/rss/digital/pc/pccampaign',
-        # Yahoo
-        # 'https://news.yahoo.co.jp/rss/topics/it.xml',
-        # 'https://news.yahoo.co.jp/rss/categories/it.xml',
         # GIGAZINE
         'https://gigazine.net/news/rss_2.0/',
         # Lifehacker
@@ -98,7 +96,7 @@ def get_news():
         # BUILT
         'https://rss.itmedia.co.jp/rss/2.0/sj_built.xml',
         # TechTarget
-        'https://rss.itmedia.co.jp/rss/2.0/techfactory.xml'
+        'https://rss.itmedia.co.jp/rss/2.0/techfactory.xml',
         # Netlab
         'https://rss.itmedia.co.jp/rss/2.0/netlab.xml',
         # Engadget
@@ -111,7 +109,7 @@ def get_news():
         # PC Watch
         'https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf',
         # デジカメ Watch
-        'https://dc.watch.impress.co.jp/data/rss/1.0/dcw/feed.rdf,
+        'https://dc.watch.impress.co.jp/data/rss/1.0/dcw/feed.rdf',
         # AKIBA PC Hotline!
         'https://akiba-pc.watch.impress.co.jp/data/rss/1.0/ah/feed.rdf',
         # AV Watch
@@ -145,30 +143,9 @@ def get_news():
         # GIZMODO
         'https://www.gizmodo.jp/index.xml',
         'https://gizmodo.com/rss',
-        # PCパーツまとめ
-        'http://blog.livedoor.jp/bluejay01-review/atom.xml',
-        # Publickey
-        'http://blog.livedoor.jp/bluejay01-review/atom.xml',
-        # スラド
-        'http://srad.jp/sradjp.rss',
-        # Chrome Releases
-        'https://chromereleases.googleblog.com/feeds/posts/default',
-        # 徳丸浩の日記 (セキュリティ)
-        'https://blog.tokumaru.org/',
-        # Web Creator Box
-        'https://www.webcreatorbox.com/',
-        # コリス
-        'http://coliss.com/feed/',
-        # SEO Japan
-        'https://www.seojapan.com/blog/feed',
-        # 海外SEO情報ブログ
-        'https://www.suzukikenichi.com/blog/feed/',
-        'https://www.suzukikenichi.com/blog/web-stories/feed/'
         # 日経ビジネス
         'https://business.nikkei.com/rss/all_nb.rdf',
-        # ACRi
-        'https://www.acri.c.titech.ac.jp/wordpress/feed',
-        'https://prtimes.jp/index.rdf',
+        # 日経クロステック
         'https://tech.nikkeibp.co.jp/rss/index.rdf',
         'https://tech.nikkeibp.co.jp/rss/xtech-it.rdf',
         'https://tech.nikkeibp.co.jp/rss/xtech-dm.rdf',
@@ -179,17 +156,76 @@ def get_news():
         'https://tech.nikkeibp.co.jp/rss/xtech-hlth.rdf',
         'https://tech.nikkeibp.co.jp/rss/xtech-bld.rdf',
         'https://tech.nikkeibp.co.jp/rss/xtech-con.rdf',
-        'https://ascii.jp/rss.xml',
-        'https://aws.amazon.com/rss',
-        'https://robotstart.info/feed',
-        'https://www.technopro.com/feed',
-        'https://gendai.ismedia.jp/list/feed/rss',
-        'https://about.bloomberg.co.jp/feed',
-        'https://diamond.jp/list/feed/rss/dol',
-        'https://biz-journal.jp/index.xml',
+        # 東洋経済オンライン
         'https://toyokeizai.net/list/feed/rss',
+        # 市況かぶ全力２階建
+        'https://kabumatome.doorblog.jp/atom.xml',
+        # 帝国データバンク
+        'https://www.tdb.co.jp/rss/jouhou.rdf',
+        # ACRi
+        'https://www.acri.c.titech.ac.jp/wordpress/feed',
+        # PR TIMES
+        'https://prtimes.jp/index.rdf',
+        # ASCII.jp
+        'https://ascii.jp/rss.xml',
+        'https://ascii.jp/biz/rss.xml',
+        'https://ascii.jp/tech/rss.xml',
+        'https://ascii.jp/web/rss.xml',
+        'https://ascii.jp/digital/rss.xml',
+        'https://ascii.jp/mac/rss.xml',
+        'https://ascii.jp/hobby/rss.xml',
+        'https://ascii.jp/pc/rss.xml',
+        # ロボスタ
+        'https://robotstart.info/feed',
+        # テクノプロ
+        'https://www.technopro.com/feed',
+        # 現代ビジネス
+        'https://gendai.ismedia.jp/list/feed/rss',
+        # Bloomberg
+        'https://about.bloomberg.co.jp/feed',
+        'https://www.bloomberg.com/professional/feed/',
+        # ダイヤモンド・オンライン
+        'https://diamond.jp/list/feed/rss/dol',
+        # Business Journal
+        'https://biz-journal.jp/index.xml',
+        # PRESIDENT Online
         'https://president.jp/list/rss',
+        # Publickey
+        'https://www.publickey1.jp/atom.xml',
+        # 不景気.com
         'https://www.fukeiki.com/atom.xml',
+        # Newsweek
+        'https://www.newsweekjapan.jp/story/rss.xml',
+        # PCパーツまとめ
+        # 'http://blog.livedoor.jp/bluejay01-review/atom.xml',
+        # スラド
+        'http://srad.jp/sradjp.rss',
+        # 徳丸浩の日記 (セキュリティ)
+        'https://blog.tokumaru.org/',
+        # Web Creator Box
+        'https://www.webcreatorbox.com/',
+        # コリス
+        'http://coliss.com/feed/',
+        # SEO Japan
+        'https://www.seojapan.com/blog/feed',
+        # 海外SEO情報ブログ
+        # 'https://www.suzukikenichi.com/blog/feed/',
+        # 'https://www.suzukikenichi.com/blog/web-stories/feed/',
+        # そうさめも
+        # 'http://miki800.com/feed/',
+        # Makuake
+        'https://www.makuake.com/atom/',
+        # 280blocker
+        'https://280blocker.net/feed/',
+        # STUDY HACKER
+        'https://studyhacker.net/feed',
+        # Chrome Releases
+        'https://chromereleases.googleblog.com/feeds/posts/default',
+        # AWS
+        'https://aws.amazon.com/rss',
+        # Yahoo
+        'https://news.yahoo.co.jp/rss/topics/it.xml',
+        'https://news.yahoo.co.jp/rss/categories/it.xml'
     ]
 
     # Search keywords
@@ -204,50 +240,58 @@ def get_news():
 
     # Collect latest news
     print('Collecting latest news...')
+    print(keywords)
     news_list = set()
     for RSS_URL in RSS_URLS:
+        print(RSS_URL)
         d = feedparser.parse(RSS_URL)
-    for entry in d.entries:
-        # Search keywords
-        for keyword in keywords:
-            if keyword in entry.title:
-                # Get date written
-                if entry.has_key('published'):
-                    pdate = entry.published_parsed
-                elif entry.has_key('updated'):
-                    pdate = entry.updated_parsed
-                elif entry.has_key('created'):
-                    pdate = entry.created_parsed
-                elif entry.has_key('expired'):
-                    pdate = entry.expired_parsed
-            # Judge latest news or old news
-            pdate = datetime.datetime(*pdate[:6], tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
-            jst_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
-            if (jst_time + datetime.timedelta(days=-1)) < pdate:
-                news_list.add(tuple([pdate, entry.title, entry.link]))
+        for entry in d.entries:
+            print(entry.title, entry.link)
+            # Search keywords
+            for keyword in keywords:
+                print(keyword, entry.title, entry.link)
+                if keyword in entry.title:
+                    print(keyword, entry.title, entry.link)
+                    # Get date written
+                    if entry.has_key('published'):
+                        pdate = entry.published_parsed
+                    elif entry.has_key('updated'):
+                        pdate = entry.updated_parsed
+                    elif entry.has_key('created'):
+                        pdate = entry.created_parsed
+                    elif entry.has_key('expired'):
+                        pdate = entry.expired_parsed
+                    # Judge latest news or old news
+                    pdate = datetime.datetime(*pdate[:6], tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
+                    jst_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
+                    # print(pdate, entry.title, entry.link)
+                    if (jst_time + datetime.timedelta(days=-7)) < pdate:
+                        news_list.add(tuple([pdate, entry.title, entry.link]))
+                    # for newstitle in news_list:
+                    #     if difflib.SequenceMatcher(None, entry.title, newstitle[1]).ratio() > 0.8:
+    # Print all latest news
+    print('Print latest news')
+    for news in news_list:
+        print(news[0], news[1], news[2])
 
-                cns = []
-                for news in news_list:
-                    htmldata = requests.get(news[2]).text
-                    soup = BeautifulSoup(htmldata, 'html.parser')
-                    mainimg = soup.find('meta', attrs={'property': 'og:image', 'content': True})
-                    imgsrc = None
-                    if mainimg is not None:
-                        imgsrc = mainimg['content']
-                        cn = {
-                            "title": news[1],
-                            "url": news[2],
-                            "color": 1752220,
-                            "thumbnail": {
-                                "url": imgsrc
-                            }
-                        }
-                        cns.append(cn)
-
-                        # Print all latest news
-                        for news in news_list:
-                            print(news[0], news[1], news[2])
-                            return cns
+    cns = []
+    for news in news_list:
+        htmldata = requests.get(news[2]).text
+        soup = BeautifulSoup(htmldata, 'html.parser')
+        mainimg = soup.find('meta', attrs={'property': 'og:image', 'content': True})
+        imgsrc = None
+        if mainimg is not None:
+            imgsrc = mainimg['content']
+            cn = {
+                "title": news[1],
+                "url": news[2],
+                "color": 1752220,
+                "thumbnail": {
+                    "url": imgsrc
+                }
+            }
+            cns.append(cn)
+    return cns
 
 
 def get_weather():
@@ -342,71 +386,71 @@ def get_weather():
     return cn
 
 
-def get_calender():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    # If modifying these scopes, delete the file token.json.
-    SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-
-    creds = None
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
-
-    try:
-        service = build('calendar', 'v3', credentials=creds)
-
-        # Call the Calendar API
-        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC Time
-        print('Getting the upcoming 10 events')
-        events_result = service.events().list(calendarId='primary', timeMin=now,
-                                              maxResults=10, singleEvents=True,
-                                              orderBy='startTime').execute()
-        events = events_result.get('items', [])
-
-        cn = {
-            "title": "今日の予定",
-            #"url": news[2],
-            "description": datetime.datetime.now().strftime('%Y/%m/%d (%a)'),
-            "color": 16776960,
-            "thumbnail": {
-                "url": "https://avatars.githubusercontent.com/u/34744243?v=4"
-            },
-            "fields": []
-        }
-
-        if not events:
-            print('No upcoming events found.')
-            return
-
-        # Prints the start and name of the next 10 events
-        for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            print(start, event['summary'])
-            goal = {
-                "name": start,
-                "value": event['summary']
-            }
-            cn['fields'].append(goal)
-
-        return cn
-
-    except HttpError as error:
-        print('An error occurred: %s' % error)
+# def get_calender():
+#     """Shows basic usage of the Google Calendar API.
+#     Prints the start and name of the next 10 events on the user's calendar.
+#     """
+#     # If modifying these scopes, delete the file token.json.
+#     SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+#
+#     creds = None
+#     # The file token.json stores the user's access and refresh tokens, and is
+#     # created automatically when the authorization flow completes for the first
+#     # time.
+#     if os.path.exists('token.json'):
+#         creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+#     # If there are no (valid) credentials available, let the user log in.
+#     if not creds or not creds.valid:
+#         if creds and creds.expired and creds.refresh_token:
+#             creds.refresh(Request())
+#         else:
+#             flow = InstalledAppFlow.from_client_secrets_file(
+#                 'credentials.json', SCOPES)
+#             creds = flow.run_local_server(port=0)
+#         # Save the credentials for the next run
+#         with open('token.json', 'w') as token:
+#             token.write(creds.to_json())
+#
+#     try:
+#         service = build('calendar', 'v3', credentials=creds)
+#
+#         # Call the Calendar API
+#         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC Time
+#         print('Getting the upcoming 10 events')
+#         events_result = service.events().list(calendarId='primary', timeMin=now,
+#                                               maxResults=10, singleEvents=True,
+#                                               orderBy='startTime').execute()
+#         events = events_result.get('items', [])
+#
+#         cn = {
+#             "title": "今日の予定",
+#             #"url": news[2],
+#             "description": datetime.datetime.now().strftime('%Y/%m/%d (%a)'),
+#             "color": 16776960,
+#             "thumbnail": {
+#                 "url": "https://avatars.githubusercontent.com/u/34744243?v=4"
+#             },
+#             "fields": []
+#         }
+#
+#         if not events:
+#             print('No upcoming events found.')
+#             return
+#
+#         # Prints the start and name of the next 10 events
+#         for event in events:
+#             start = event['start'].get('dateTime', event['start'].get('date'))
+#             print(start, event['summary'])
+#             goal = {
+#                 "name": start,
+#                 "value": event['summary']
+#             }
+#             cn['fields'].append(goal)
+#
+#         return cn
+#
+#     except HttpError as error:
+#         print('An error occurred: %s' % error)
 
 
 def main():
@@ -421,7 +465,7 @@ def main():
     main_content["embeds"].append(get_weather())
     # main_content["embeds"].append(get_calender())
 
-    requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
+    # requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
     # print(main_content)
 
 
