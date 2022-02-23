@@ -282,6 +282,8 @@ def get_news():
         # 'https://www.suzukikenichi.com/blog/web-stories/feed/',
         # そうさめも
         # 'http://miki800.com/feed/',
+        # ゲームカタログ@Wiki ～名作からクソゲーまで～
+        'http://w.atwiki.jp/gcmatome/feed.atom',
         # Makuake
         'https://www.makuake.com/atom/',
         # 280blocker
