@@ -240,18 +240,18 @@ def get_news():
 
     # Collect latest news
     print('Collecting latest news...')
-    print(keywords)
+    # print(keywords)
     news_list = set()
     for RSS_URL in RSS_URLS:
-        print(RSS_URL)
+        # print(RSS_URL)
         d = feedparser.parse(RSS_URL)
         for entry in d.entries:
-            print(entry.title, entry.link)
+            # print(entry.title, entry.link)
             # Search keywords
             for keyword in keywords:
-                print(keyword, entry.title, entry.link)
+                # print(keyword, entry.title, entry.link)
                 if keyword in entry.title:
-                    print(keyword, entry.title, entry.link)
+                    # print(keyword, entry.title, entry.link)
                     # Get date written
                     if entry.has_key('published'):
                         pdate = entry.published_parsed
@@ -265,7 +265,7 @@ def get_news():
                     pdate = datetime.datetime(*pdate[:6], tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
                     jst_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
                     # print(pdate, entry.title, entry.link)
-                    if (jst_time + datetime.timedelta(days=-7)) < pdate:
+                    if (jst_time + datetime.timedelta(days=-1)) < pdate:
                         news_list.add(tuple([pdate, entry.title, entry.link]))
                     # for newstitle in news_list:
                     #     if difflib.SequenceMatcher(None, entry.title, newstitle[1]).ratio() > 0.8:
