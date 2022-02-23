@@ -251,7 +251,7 @@ def get_news():
             for keyword in keywords:
                 # print(keyword, entry.title, entry.link)
                 if keyword in entry.title:
-                    # print(keyword, entry.title, entry.link)
+                    print(keyword, entry.title, entry.link)
                     # Get date written
                     if entry.has_key('published'):
                         pdate = entry.published_parsed
@@ -265,10 +265,9 @@ def get_news():
                     pdate = datetime.datetime(*pdate[:6], tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
                     jst_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
                     # print(pdate, entry.title, entry.link)
-                    if (jst_time + datetime.timedelta(days=-1)) < pdate:
-                        news_list.add(tuple([pdate, entry.title, entry.link]))
-                    # for newstitle in news_list:
-                    #     if difflib.SequenceMatcher(None, entry.title, newstitle[1]).ratio() > 0.8:
+                    if pdate < (jst_time + datetime.timedelta(days=-1)):
+                        continue
+                    news_list.add(tuple([pdate, entry.title, entry.link]))
     # Print all latest news
     print('Print latest news')
     for news in news_list:
