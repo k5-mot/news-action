@@ -142,7 +142,7 @@ def get_news():
         'https://feeds.dailyfeed.jp/feed/s/22/348.rss',
         # GIZMODO
         'https://www.gizmodo.jp/index.xml',
-        'https://gizmodo.com/rss',
+        # 'https://gizmodo.com/rss',
         # 日経ビジネス
         'https://business.nikkei.com/rss/all_nb.rdf',
         # 日経クロステック
@@ -183,7 +183,7 @@ def get_news():
         'https://gendai.ismedia.jp/list/feed/rss',
         # Bloomberg
         'https://about.bloomberg.co.jp/feed',
-        'https://www.bloomberg.com/professional/feed/',
+        # 'https://www.bloomberg.com/professional/feed/',
         # ダイヤモンド・オンライン
         'https://diamond.jp/list/feed/rss/dol',
         # Business Journal
@@ -232,7 +232,7 @@ def get_news():
     keywords = [
         'Xilinx', 'Altera', 'FPGA', 'Intel', 'AMD', 'NVIDIA',
         'Field-Programmable Gate Array', 'HDL', 'HLS', 'Arm',
-        'Field Programmable Gate Array', 'ASIC', '半導体',
+        'Field Programmable Gate Array', 'ASIC',
         'Sony', 'Semiconductor', 'セミコンダクタ', 'terastic',
         'Lattice', 'MicroSemi', 'Verilog', 'SystemVerilog',
         'Digilent', 'Avnet', 'Quartus', 'Vivado', 'Vitis', 'SystemC'
@@ -279,7 +279,7 @@ def get_news():
         print(news[0], news[1], news[2])
 
     cns = []
-    for news in news_list:
+    for news in news_list[0:9]:
         htmldata = requests.get(news[2]).text
         soup = BeautifulSoup(htmldata, 'html.parser')
         mainimg = soup.find('meta', attrs={'property': 'og:image', 'content': True})
@@ -314,9 +314,9 @@ def get_weather():
         "description": datetime.datetime.fromtimestamp(data['dt']).strftime('%Y/%m/%d (%a)'),
         "url": "https://openweathermap.org/city/1856177",
         "color": 5620992,
-        "image": {
-            "url": "https://pbs.twimg.com/profile_banners/1159383628951851008/1565318066/1500x500",
-        },
+        # "image": {
+        #     "url": "https://pbs.twimg.com/profile_banners/1159383628951851008/1565318066/1500x500",
+        # },
         "thumbnail": {
             "url": "http://openweathermap.org/img/w/" + data['weather'][0]['icon'] + ".png"
         },
