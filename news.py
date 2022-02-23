@@ -262,6 +262,7 @@ def get_news():
                     elif entry.has_key('expired'):
                         pdate = entry.expired_parsed
                     # Judge latest news or old news
+                    print(entry)
                     pdate = datetime.datetime(*pdate[:6], tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
                     jst_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
                     # print(pdate, entry.title, entry.link)
