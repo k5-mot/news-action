@@ -212,6 +212,8 @@ def get_news():
         'https://www.fukeiki.com/atom.xml',
         # Newsweek
         'https://www.newsweekjapan.jp/story/rss.xml',
+        # AUTOMATON
+        'https://automaton-media.com/feed/',
         # PCパーツまとめ
         # 'http://blog.livedoor.jp/bluejay01-review/atom.xml',
         # スラド
