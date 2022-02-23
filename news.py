@@ -223,7 +223,19 @@ def get_news():
         'https://chromereleases.googleblog.com/feeds/posts/default',
         # AWS
         'https://aws.amazon.com/rss',
-        # Yahoo
+        # Mozilla Blog
+        'https://blog.mozilla.org/en/feed/',
+        # Dwango
+        'http://creator.dwango.co.jp/feed/rss',
+        # KDII
+        'http://cloudblog.kddi.com/feed/',
+        # NTT
+        'https://engineers.ntt.com/feed',
+        # Yahoo! JAPAN
+        'https://techblog.yahoo.co.jp/atom.xml',
+        # CyberAgent
+        'https://developers.cyberagent.co.jp/blog/feed/',
+        # Yahoo! News
         'https://news.yahoo.co.jp/rss/topics/it.xml',
         'https://news.yahoo.co.jp/rss/categories/it.xml'
     ]
@@ -232,10 +244,12 @@ def get_news():
     keywords = [
         'Xilinx', 'Altera', 'FPGA', 'Intel', 'AMD', 'NVIDIA',
         'Field-Programmable Gate Array', 'HDL', 'HLS', 'Arm',
-        'Field Programmable Gate Array', 'ASIC',
-        'Sony', 'Semiconductor', 'セミコンダクタ', 'terastic',
+        'Field Programmable Gate Array', 'ASIC', 'CPU', 'GPU', 'CUDA',
+        'Sony', 'Semiconductor', 'セミコンダクタ', 'terastic', '半導体',
         'Lattice', 'MicroSemi', 'Verilog', 'SystemVerilog',
-        'Digilent', 'Avnet', 'Quartus', 'Vivado', 'Vitis', 'SystemC'
+        'Verilog-HDL', 'HDL', 'ASIC',
+        'Digilent', 'Avnet', 'Quartus', 'Vivado', 'Vitis', 'SystemC',
+        '富岳', '富嶽',
     ]
 
     # Collect latest news
@@ -246,6 +260,7 @@ def get_news():
         # print(RSS_URL)
         d = feedparser.parse(RSS_URL)
         for entry in d.entries:
+          
             # Get published date
             pdate = None
             if entry.has_key('published'):
@@ -267,11 +282,22 @@ def get_news():
             if pdate < (jst_time + datetime.timedelta(days=-1)):
                 continue
 
+            # Compare news list
+            cflg = False
+            for newsline in news_list:
+                samer = difflib.SequenceMatcher(None, newsline[1], entry.title).ratio()      
+                if 0.85 < samer:
+                    cflg = True
+                    break
+            if cflg:
+                continue
+
             # Search keywords
             for keyword in keywords:
                 if keyword in entry.title:
-                    print(keyword, entry.title, entry.link)
+                    print(pdate, keyword, entry.title, entry.link)
                     news_list.add(tuple([pdate, entry.title, entry.link]))
+                    break
 
     # Print all latest news
     print('Print latest news')
@@ -279,7 +305,7 @@ def get_news():
         print(news[0], news[1], news[2])
 
     cns = []
-    for news in news_list[0:9]:
+    for news in news_list:
         htmldata = requests.get(news[2]).text
         soup = BeautifulSoup(htmldata, 'html.parser')
         mainimg = soup.find('meta', attrs={'property': 'og:image', 'content': True})
@@ -314,9 +340,10 @@ def get_weather():
         "description": datetime.datetime.fromtimestamp(data['dt']).strftime('%Y/%m/%d (%a)'),
         "url": "https://openweathermap.org/city/1856177",
         "color": 5620992,
-        # "image": {
-        #     "url": "https://pbs.twimg.com/profile_banners/1159383628951851008/1565318066/1500x500",
-        # },
+        "image": {
+            # "url": "https://pbs.twimg.com/profile_banners/1159383628951851008/1565318066/1500x500",
+            "url": "https://www.nagasaki-u.ac.jp/ja/news/images/news.jpg",
+        },
         "thumbnail": {
             "url": "http://openweathermap.org/img/w/" + data['weather'][0]['icon'] + ".png"
         },
@@ -469,7 +496,7 @@ def main():
     main_content["embeds"].append(get_weather())
     # main_content["embeds"].append(get_calender())
 
-    requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
+    # requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
     # print(main_content)
 
 
