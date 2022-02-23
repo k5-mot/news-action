@@ -164,6 +164,7 @@ def get_news():
         'https://www.tdb.co.jp/rss/jouhou.rdf',
         # ACRi
         'https://www.acri.c.titech.ac.jp/wordpress/feed',
+        'https://www.youtube.com/feeds/videos.xml?channel_id=UCL15_5A9JKcVrmFUcMto6-Q',
         # PR TIMES
         'https://prtimes.jp/index.rdf',
         # ZDNet Japan
@@ -221,8 +222,59 @@ def get_news():
         'https://www.webcreatorbox.com/',
         # コリス
         'http://coliss.com/feed/',
+        # FPGAの部屋
+        'https://marsee101.blog.fc2.com/?xml',
+        # FPGA開発日記
+        'https://msyksphinz.hatenablog.com/feed',
+        # FPGA Developer
+        'https://www.fpgadeveloper.com/index.xml',
+        # ハートランド・ザ・ワールド
+        'https://hldc.co.jp/blog/feed/',
+        # FPGAの部屋まとめ
+        'http://fpga.blog.jp/atom.xml',
+        # GMO
+        'https://recruit.gmo.jp/engineer/jisedai/blog/feed/',
+        # Sparkfun
+        'https://www.sparkfun.com/feeds/news',
+        'https://www.sparkfun.com/feeds/products',
+        # Dangerous Prototypes
+        'http://dangerousprototypes.com/blog/feed/',
+        # Analog Devices
+        'https://ez.analog.com/rss',
+        # Achronix
+        'https://www.achronix.com/rss.xml',
+        # Plunify
+        'https://support.plunify.com/en/feed/',
+        # Digitronix Nepal
+        'https://www.youtube.com/feeds/videos.xml?channel_id=UCfd9WcJUGiNggdU5BXvvvZg',
+        # FPGA4Student
+        'https://www.fpga4student.com/feeds/posts/default',
+        # FPGA Releated Blog
+        'https://www.fpgarelated.com/blogs_rss.php',
+        # Intel FPGA
+        'https://www.youtube.com/feeds/videos.xml?user=alteracorp',
+        # Xilinx
+        'https://www.youtube.com/feeds/videos.xml?user=XilinxInc',
+        # FPGA Coding
+        'https://fpgacoding.com/feed/',
+        # Exostiv Labs
+        'https://www.exostivlabs.com/feed/',
+        # Annapolis Micro Systems
+        'https://www.annapmicro.com/feed/',
+        # ZipCPU
+        'https://zipcpu.com/feed.xml',
+        # Aldec
+        'https://www.aldec.com/rss',
+        # Digilent
+        'https://digilent.com/blog/feed/',
         # SEO Japan
         'https://www.seojapan.com/blog/feed',
+        # Macnica
+        'https://www.youtube.com/feeds/videos.xml?channel_id=UCMm9NUzYr4zGWMDllZ2Rghg',
+        # NTT DATA
+        'https://www.youtube.com/feeds/videos.xml?channel_id=UCAqNtQC0e1eBrwIBpVmZung',
+        # Digi-Key
+        'https://www.youtube.com/feeds/videos.xml?channel_id=UCclJCqMDAkyVGsm5oFOTXIQ',
         # 海外SEO情報ブログ
         # 'https://www.suzukikenichi.com/blog/feed/',
         # 'https://www.suzukikenichi.com/blog/web-stories/feed/',
@@ -357,7 +409,7 @@ def get_weather():
         "color": 5620992,
         "image": {
         #     "url": "https://pbs.twimg.com/profile_banners/1159383628951851008/1565318066/1500x500",
-            "url": "https://source.unsplash.com/uj7eb7CgqRk/1080x520",
+            "url": "https://source.unsplash.com/uj7eb7CgqRk/1080x300",
         },
         "thumbnail": {
             "url": "http://openweathermap.org/img/w/" + data['weather'][0]['icon'] + ".png"
