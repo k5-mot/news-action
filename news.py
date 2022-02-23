@@ -166,6 +166,21 @@ def get_news():
         'https://www.acri.c.titech.ac.jp/wordpress/feed',
         # PR TIMES
         'https://prtimes.jp/index.rdf',
+        # ZDNet Japan
+        'http://feeds.japan.zdnet.com/rss/zdnet/all.rdf',
+        # Dream News
+        'https://www.dreamnews.jp/?action_rss=1',
+        # ZNews Africa
+        # 'https://znewsafrica.com/feed/',
+        # The Next Platform
+        # 'https://www.nextplatform.com/feed/',
+        # Design & Reuse
+        # 'https://www.design-reuse.com/xml/1/1/all/rss.xml',
+        # 'https://www.design-reuse.com/xml/1/1/news/rss.xml',
+        # All About Circuits
+        # 'http://www.allaboutcircuits.com/rss/',
+        # HACKADAY
+        # 'https://hackaday.com/feed/',
         # ASCII.jp
         'https://ascii.jp/rss.xml',
         'https://ascii.jp/biz/rss.xml',
@@ -260,7 +275,7 @@ def get_news():
         # print(RSS_URL)
         d = feedparser.parse(RSS_URL)
         for entry in d.entries:
-          
+
             # Get published date
             pdate = None
             if entry.has_key('published'):
@@ -285,7 +300,7 @@ def get_news():
             # Compare news list
             cflg = False
             for newsline in news_list:
-                samer = difflib.SequenceMatcher(None, newsline[1], entry.title).ratio()      
+                samer = difflib.SequenceMatcher(None, newsline[1], entry.title).ratio()
                 if 0.85 < samer:
                     cflg = True
                     break
