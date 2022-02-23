@@ -1,4 +1,4 @@
-name: 'News bot'
+name: 'Slabot'
 
 on:
   schedule:
