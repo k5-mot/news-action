@@ -246,29 +246,33 @@ def get_news():
         # print(RSS_URL)
         d = feedparser.parse(RSS_URL)
         for entry in d.entries:
-            # print(entry.title, entry.link)
+            # Get published date
+            pdate = None
+            if entry.has_key('published'):
+                pdate = entry.published_parsed
+            elif entry.has_key('updated'):
+                pdate = entry.updated_parsed
+            elif entry.has_key('created'):
+                pdate = entry.created_parsed
+            elif entry.has_key('expired'):
+                pdate = entry.expired_parsed
+
+            # Is exist date
+            if pdate is None:
+                continue
+
+            # Judge latest news
+            pdate = datetime.datetime(*pdate[:6], tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
+            jst_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
+            if pdate < (jst_time + datetime.timedelta(days=-1)):
+                continue
+
             # Search keywords
             for keyword in keywords:
-                # print(keyword, entry.title, entry.link)
                 if keyword in entry.title:
                     print(keyword, entry.title, entry.link)
-                    # Get date written
-                    if entry.has_key('published'):
-                        pdate = entry.published_parsed
-                    elif entry.has_key('updated'):
-                        pdate = entry.updated_parsed
-                    elif entry.has_key('created'):
-                        pdate = entry.created_parsed
-                    elif entry.has_key('expired'):
-                        pdate = entry.expired_parsed
-                    # Judge latest news or old news
-                    print(entry)
-                    pdate = datetime.datetime(*pdate[:6], tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
-                    jst_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
-                    # print(pdate, entry.title, entry.link)
-                    if pdate < (jst_time + datetime.timedelta(days=-1)):
-                        continue
                     news_list.add(tuple([pdate, entry.title, entry.link]))
+
     # Print all latest news
     print('Print latest news')
     for news in news_list:
@@ -465,7 +469,7 @@ def main():
     main_content["embeds"].append(get_weather())
     # main_content["embeds"].append(get_calender())
 
-    # requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
+    requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
     # print(main_content)
 
 
