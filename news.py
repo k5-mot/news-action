@@ -171,7 +171,7 @@ def get_news():
         'https://ascii.jp/biz/rss.xml',
         'https://ascii.jp/tech/rss.xml',
         'https://ascii.jp/web/rss.xml',
-        'https://ascii.jp/digital/rss.xml',
+        # 'https://ascii.jp/digital/rss.xml',
         'https://ascii.jp/mac/rss.xml',
         'https://ascii.jp/hobby/rss.xml',
         'https://ascii.jp/pc/rss.xml',
