@@ -355,9 +355,10 @@ def get_weather():
         "description": datetime.datetime.fromtimestamp(data['dt']).strftime('%Y/%m/%d (%a)'),
         "url": "https://openweathermap.org/city/1856177",
         "color": 5620992,
-        # "image": {
+        "image": {
         #     "url": "https://pbs.twimg.com/profile_banners/1159383628951851008/1565318066/1500x500",
-        # },
+            "url": "https://source.unsplash.com/uj7eb7CgqRk/1080x520",
+        },
         "thumbnail": {
             "url": "http://openweathermap.org/img/w/" + data['weather'][0]['icon'] + ".png"
         },
