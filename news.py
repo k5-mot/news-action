@@ -567,6 +567,8 @@ def main():
     main_content["embeds"].append(get_weather())
     # main_content["embeds"].append(get_calender())
 
+    # News & weather
+    print('Notification of News & WEather')
     requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
     # print(main_content)
 
