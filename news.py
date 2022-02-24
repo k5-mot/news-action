@@ -570,7 +570,8 @@ def main():
     # News & weather
     print('Notification of News & WEather')
     print(main_content)
-    requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
+    res = requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
+    print(res)
     # print(main_content)
 
 
