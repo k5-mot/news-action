@@ -237,36 +237,36 @@ def get_news():
         # GMO
         'https://recruit.gmo.jp/engineer/jisedai/blog/feed/',
         # Sparkfun
-        'https://www.sparkfun.com/feeds/news',
-        'https://www.sparkfun.com/feeds/products',
+        # 'https://www.sparkfun.com/feeds/news',
+        # 'https://www.sparkfun.com/feeds/products',
         # Dangerous Prototypes
-        'http://dangerousprototypes.com/blog/feed/',
+        # 'http://dangerousprototypes.com/blog/feed/',
         # Analog Devices
-        'https://ez.analog.com/rss',
+        # 'https://ez.analog.com/rss',
         # Achronix
-        'https://www.achronix.com/rss.xml',
+        # 'https://www.achronix.com/rss.xml',
         # Plunify
-        'https://support.plunify.com/en/feed/',
+        # 'https://support.plunify.com/en/feed/',
         # Digitronix Nepal
-        'https://www.youtube.com/feeds/videos.xml?channel_id=UCfd9WcJUGiNggdU5BXvvvZg',
+        # 'https://www.youtube.com/feeds/videos.xml?channel_id=UCfd9WcJUGiNggdU5BXvvvZg',
         # FPGA4Student
-        'https://www.fpga4student.com/feeds/posts/default',
+        # 'https://www.fpga4student.com/feeds/posts/default',
         # FPGA Releated Blog
-        'https://www.fpgarelated.com/blogs_rss.php',
+        # 'https://www.fpgarelated.com/blogs_rss.php',
         # Intel FPGA
         'https://www.youtube.com/feeds/videos.xml?user=alteracorp',
         # Xilinx
         'https://www.youtube.com/feeds/videos.xml?user=XilinxInc',
         # FPGA Coding
-        'https://fpgacoding.com/feed/',
+        # 'https://fpgacoding.com/feed/',
         # Exostiv Labs
-        'https://www.exostivlabs.com/feed/',
+        # 'https://www.exostivlabs.com/feed/',
         # Annapolis Micro Systems
-        'https://www.annapmicro.com/feed/',
+        # 'https://www.annapmicro.com/feed/',
         # ZipCPU
-        'https://zipcpu.com/feed.xml',
+        # 'https://zipcpu.com/feed.xml',
         # Aldec
-        'https://www.aldec.com/rss',
+        # 'https://www.aldec.com/rss',
         # Digilent
         'https://digilent.com/blog/feed/',
         # SEO Japan
