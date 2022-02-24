@@ -308,7 +308,7 @@ def get_news():
         'https://developers.cyberagent.co.jp/blog/feed/',
         # Yahoo! News
         'https://news.yahoo.co.jp/rss/topics/it.xml',
-        'https://news.yahoo.co.jp/rss/categories/it.xml'
+        'https://news.yahoo.co.jp/rss/categories/it.xml',
     ]
 
     # Search keywords
@@ -366,7 +366,7 @@ def get_news():
             # Search keywords
             for keyword in keywords:
                 if keyword in entry.title:
-                    print(pdate, keyword, entry.title, entry.link)
+                    # print(pdate, keyword, entry.title, entry.link)
                     news_list.add(tuple([pdate, entry.title, entry.link]))
                     break
 
@@ -569,6 +569,7 @@ def main():
 
     # News & weather
     print('Notification of News & WEather')
+    print(main_content)
     requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'})
     # print(main_content)
 
