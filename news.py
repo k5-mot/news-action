@@ -326,7 +326,7 @@ def get_news():
     # Collect latest news
     print('Collecting latest news...')
     # print(keywords)
-    news_list = set()
+    news_list = list()
     for RSS_URL in RSS_URLS:
         # print(RSS_URL)
         d = feedparser.parse(RSS_URL)
@@ -356,6 +356,15 @@ def get_news():
             # Compare news list
             cflg = False
             for newsline in news_list:
+                if newsline[1] == entry.title:
+                    cflg = True
+                    break
+            if cflg:
+                continue
+
+            # Compare news list
+            cflg = False
+            for newsline in news_list:
                 samer = difflib.SequenceMatcher(None, newsline[1], entry.title).ratio()
                 if 0.85 < samer:
                     cflg = True
@@ -367,7 +376,7 @@ def get_news():
             for keyword in keywords:
                 if keyword in entry.title:
                     # print(pdate, keyword, entry.title, entry.link)
-                    news_list.add(tuple([pdate, entry.title, entry.link]))
+                    news_list.append(tuple([pdate, entry.title, entry.link]))
                     break
 
     # Sort latest
