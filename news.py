@@ -370,13 +370,19 @@ def get_news():
                     news_list.add(tuple([pdate, entry.title, entry.link]))
                     break
 
+    # Sort latest
+    for i in range(0, len(news_list)):
+        for j in range(i + 1, len(news_list)):
+            if news_list[i][0] < news_list[j][0]:
+                news_list[i], news_list[j] = news_list[j], news_list[i]
+
     # Print all latest news
     print('Print latest news')
-    for news in news_list:
+    for news in news_list[0:9]:
         print(news[0], news[1], news[2])
 
     cns = []
-    for news in news_list:
+    for news in news_list[0:9]:
         htmldata = requests.get(news[2]).text
         soup = BeautifulSoup(htmldata, 'html.parser')
         mainimg = soup.find('meta', attrs={'property': 'og:image', 'content': True})
