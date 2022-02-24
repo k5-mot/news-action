@@ -373,6 +373,7 @@ def get_news():
     # Sort latest
     for i in range(0, len(news_list)):
         for j in range(i + 1, len(news_list)):
+            print(news_list[i][0], news_list[j][0])
             if news_list[i][0] < news_list[j][0]:
                 news_list[i], news_list[j] = news_list[j], news_list[i]
 
