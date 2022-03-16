@@ -86,7 +86,6 @@ def notify_discord(lookup, tweets):
             }
         ]
     }
-    entities = tweets['data'][0]['entities']
 
     first = True
     if 'attachments' in tweets['data'][0]:
