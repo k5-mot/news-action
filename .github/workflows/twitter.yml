@@ -21,4 +21,4 @@ jobs:
 
       - shell: bash
         run: |
-          python3 twibot.py
+          python3 twiter.py
