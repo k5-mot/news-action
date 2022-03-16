@@ -113,7 +113,7 @@ def notify_discord(lookup, tweets):
 
 
 def main():
-    usernames = ['NU_kouhou', 'nu_idsci', 'ShigeruKohno']
+    usernames = ['NU_kouhou', 'nu_idsci', 'ShigeruKohno', 'nagasakicareer', 'nuc_bunkyo_shop', 'nuc_univ_coop', 'NagasakiUniLib']
     for username in usernames:
         user_lookup = get_user_lookup(username)
         print(json.dumps(user_lookup, indent=4, sort_keys=True, ensure_ascii=False))
