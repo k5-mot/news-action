@@ -19,11 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: 'Set current datetime as env variable'
-        env:
-          TZ: 'Asia/Tokyo'
-        run: echo "CURRENT_DATETIME=$(date +'%Y/%m/%d(%a) %H:%M:%S')" >> $GITHUB_ENV
-
       - shell: bash
         with:
           DISCORD_WEBHOOK: ${{ env.DISCORD_WEBHOOK }}
