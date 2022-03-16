@@ -1,0 +1,33 @@
+name: 'Twitter'
+
+on:
+  schedule:
+    - cron: '30 * * * *'
+  workflow_dispatch:
+    #  push:
+    #    branches:
+    #      - main
+
+jobs:
+  ubuntu-test:
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      OPENWEATHER_APIKEY: ${{ secrets.OPENWEATHER_APIKEY }}
+      BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Set current datetime as env variable'
+        env:
+          TZ: 'Asia/Tokyo'
+        run: echo "CURRENT_DATETIME=$(date +'%Y/%m/%d(%a) %H:%M:%S')" >> $GITHUB_ENV
+
+      - shell: bash
+        with:
+          DISCORD_WEBHOOK: ${{ env.DISCORD_WEBHOOK }}
+          OPENWEATHER_APIKEY: ${{ env.OPENWEATHER_APIKEY }}
+          BEARER_TOKEN: ${{ env.BEARER_TOKEN }}
+        run: |
+          python3 twibot.py
