@@ -2,7 +2,6 @@ import requests
 import os
 import json
 import datetime
-from pytz import timezone
 
 bearer_token = os.environ.get("BEARER_TOKEN")
 discord_webhook = os.environ.get("DISCORD_WEBHOOK")
