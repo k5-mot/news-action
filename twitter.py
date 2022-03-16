@@ -113,12 +113,12 @@ def notify_discord(lookup, tweets):
 
 
 def main():
-    usernames = ['NU_kouhou', 'nu_idsci', 'ShigeruKohno', 'k5_mot']
+    usernames = ['NU_kouhou', 'nu_idsci', 'ShigeruKohno']
     for username in usernames:
         user_lookup = get_user_lookup(username)
         print(json.dumps(user_lookup, indent=4, sort_keys=True, ensure_ascii=False))
         user_tweets = get_user_tweets(int(user_lookup['data'][0]['id']))
-        print(json.dumps(user_tweets['data'][0], indent=4, sort_keys=True, ensure_ascii=False))
+        print(json.dumps(user_tweets, indent=4, sort_keys=True, ensure_ascii=False))
 
         post_time = convert_to_datetime(user_tweets['data'][0]['created_at'])
         now_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=+9), 'JST'))
